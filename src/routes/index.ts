@@ -1,4 +1,4 @@
 import root from "./root";
-import filtered from "./filtered";
+import filtered from "./filteredResponses";
 
 export default [filtered, root];
