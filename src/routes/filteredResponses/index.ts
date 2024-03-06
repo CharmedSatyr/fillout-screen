@@ -49,7 +49,7 @@ const getFilteredResponses = async (req: Request, res: Response) => {
     res
       .status(500)
       .send(
-        `There was a problem processing the request. Server response: ${err}`,
+        `There was a problem processing the request. Server response: ${JSON.stringify(err)}`,
       );
   }
 };
