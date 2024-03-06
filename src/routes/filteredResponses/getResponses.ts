@@ -28,7 +28,6 @@ const getResponses = async (req: Request): Promise<FormResponses> => {
 
   const responses: FormResponses = await result.json();
 
-  // TODO: There is pagination. You don't have all the responses if pageCount > 1.
   return responses;
 };
 
