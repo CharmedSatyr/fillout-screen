@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import rootHandler from "~/routes/root";
+import rootHandler from "./routes/root";
 
 dotenv.config();
 
