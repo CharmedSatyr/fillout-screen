@@ -1,12 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import rootHandler from "./routes/root";
-
 dotenv.config();
+
+import routes from "./routes";
 
 const app = express();
 
-app.use(rootHandler);
+app.use(...routes);
 
 export default app;

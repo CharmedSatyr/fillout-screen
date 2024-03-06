@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
+import { Request, Response, Router } from "express";
 
-const router = express.Router();
+const router = Router();
 
 export const getRoot = (_: Request, res: Response) => {
   res.send("Hello, Fillout!");
