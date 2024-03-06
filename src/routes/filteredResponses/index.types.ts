@@ -77,6 +77,8 @@ export interface FormResponse {
   };
   submissionId: string;
   submissionTime: string;
+  lastUpdatedAt: string;
+  documents: unknown[];
 }
 
 export interface FormResponses {
