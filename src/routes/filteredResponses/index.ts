@@ -40,9 +40,36 @@ const getFilteredResponses = async (req: Request, res: Response) => {
 
     const responses: FormResponses = await getResponses(req);
 
-    const filteredResponses = filterResponses(responses, filters);
+    const filteredResponses = filterResponses(responses.responses, filters);
 
-    return res.status(200).json(filteredResponses);
+    /**
+     * The total number of responses after filtering would be best determined by 1) database access
+     * or 2) fetching all possible responses, filtering them, and getting the filtered array's length.
+     * For 2, I'd create a loop to fetch responses and add them to an array until I had all of them.
+     * For that to be reasonable, I'd want to know the median number of responses per formId and
+     * how high the limit can go before it causes problems. I'd potentially explore a caching strategy
+     * to avoid pointless churn.
+     *
+     * For this screening, I'm assuming there will never be more than the default limit (150)
+     * total responses. (My test account has 11 total responses.)
+     */
+    const limit = req.query.limit ? Number(req.query.limit) : 150;
+    const offset = req.query.offset ? Number(req.query.offset) : 0;
+
+    const result: FormResponses = {
+      responses: filteredResponses,
+      totalResponses: filteredResponses.length,
+      pageCount:
+        filteredResponses.length % limit > 0
+          ? Math.floor(filteredResponses.length / limit) + 1
+          : filteredResponses.length / limit,
+    };
+
+    if (filteredResponses.length > limit) {
+      result.responses = filteredResponses.slice(offset, offset + limit);
+    }
+
+    return res.status(200).json(result);
   } catch (err) {
     console.error(`[Error]: ${JSON.stringify(err)}`);
 

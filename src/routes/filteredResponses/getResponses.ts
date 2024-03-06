@@ -6,7 +6,8 @@ const apiKey = process.env.FILLOUT_API_KEY;
 const getResponses = async (req: Request): Promise<FormResponses> => {
   const passthroughParams = new URLSearchParams();
   for (const [key, value] of Object.entries(req.query)) {
-    if (!value || key === "filters") {
+    // Intentionally ignoring the limit here. See note in ~/routes/filterResponses/index.ts.
+    if (!value || key === "filters" || key === "limit") {
       continue;
     }
 

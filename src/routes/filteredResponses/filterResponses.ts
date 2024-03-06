@@ -1,20 +1,20 @@
-import { FormResponses, ResponseFilters } from "./index.types";
+import { FormResponse, ResponseFilters } from "./index.types";
 
 const filterResponses = (
-  responses: FormResponses,
+  responses: FormResponse[],
   filters: ResponseFilters = [],
-): FormResponses => {
+): FormResponse[] => {
   if (filters.length < 1) {
     return responses;
   }
 
   /**
    * There are many input types.
-   * There are proably better ways to compare
+   * There are probably better ways to compare
    * all of them, but it would require iteration
    * and more information to determine them all.
    */
-  const matchingResponses = responses.responses.filter((res) => {
+  const matchingResponses = responses.filter((res) => {
     return filters.every((filter) => {
       return res.questions
         .filter((question) => question.id === filter.id)
@@ -60,11 +60,7 @@ const filterResponses = (
     });
   });
 
-  return {
-    responses: matchingResponses,
-    totalResponses: matchingResponses.length,
-    pageCount: matchingResponses.length > 0 ? 1 : 0, // TODO
-  };
+  return matchingResponses;
 };
 
 export default filterResponses;

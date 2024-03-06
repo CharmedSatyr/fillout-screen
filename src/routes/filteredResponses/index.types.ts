@@ -45,7 +45,7 @@ type QuestionType =
   | "TimePicker"
   | "URLInput";
 
-interface Question {
+export interface Question {
   id: string;
   name: string;
   type: QuestionType;
@@ -67,7 +67,7 @@ interface UrlParameter {
   value: string;
 }
 
-interface FormResponse {
+export interface FormResponse {
   questions: Question[];
   calculations: Calculation[];
   urlParameters: UrlParameter[];
