@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import {
   FilterClauseType,
+  FormResponse,
   FormResponses,
   ResponseFilters,
 } from "./index.types";
@@ -38,21 +39,10 @@ const getFilteredResponses = async (req: Request, res: Response) => {
       throw "Filter parameter is invalid.";
     }
 
-    const responses: FormResponses = await getResponses(req);
+    const responses: FormResponse[] = await getResponses(req);
 
-    const filteredResponses = filterResponses(responses.responses, filters);
+    const filteredResponses = filterResponses(responses, filters);
 
-    /**
-     * The total number of responses after filtering would be best determined by 1) database access
-     * or 2) fetching all possible responses, filtering them, and getting the filtered array's length.
-     * For 2, I'd create a loop to fetch responses and add them to an array until I had all of them.
-     * For that to be reasonable, I'd want to know the median number of responses per formId and
-     * how high the limit can go before it causes problems. I'd potentially explore a caching strategy
-     * to avoid pointless churn.
-     *
-     * For this screening, I'm assuming there will never be more than the default limit (150)
-     * total responses. (My test account has 11 total responses.)
-     */
     const limit = req.query.limit ? Number(req.query.limit) : 150;
     const offset = req.query.offset ? Number(req.query.offset) : 0;
 
